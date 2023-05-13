@@ -17,7 +17,11 @@ function onSearch(e) {
     const name = refs.input.value.trim()
     const max = 10;
     const min = 2;
-    if (name === '') return;
+    if (name === '') {
+        refs.list.innerHTML = ''
+        refs.infoDiv.innerHTML = ''
+        return
+    } 
 
     fetchCountries(refs.input.value).then(data => {
         if (data.length > max) {
@@ -27,7 +31,7 @@ function onSearch(e) {
             refs.list.innerHTML = createListMarkup(data)
         } else {
             console.log(data)
-            refs.list.innerHTML = ""
+            refs.list.innerHTML = ''
             refs.infoDiv.innerHTML = createInfoMarkup(data)
         }
     })
