@@ -17,14 +17,15 @@ function onSearch(e) {
     const name = refs.input.value.trim()
     const max = 10;
     const min = 2;
-    if (name === '') {
+    if (!name) {
         refs.list.innerHTML = ''
         refs.infoDiv.innerHTML = ''
         return
     } 
 
-    fetchCountries(refs.input.value).then(data => {
+    fetchCountries(name).then(data => {
         if (data.length > max) {
+            clearPage()
             Notify.info('Too many matches found. Please enter a more specific name.')
         } else if (min <= data.length && data.length <= max) {
             refs.infoDiv.innerHTML = ''
@@ -36,10 +37,15 @@ function onSearch(e) {
         }
     })
         .catch(() => { 
+            clearPage()
             Notify.failure('Oops, there is no country with that name')
         });
 }
 
+function clearPage() { 
+    refs.list.innerHTML = ''
+    refs.infoDiv.innerHTML = ''
+}
 
 function createListMarkup(arr) {
     return arr.map(({ name: { official }, flags: { svg } }) => `<li class="country">
